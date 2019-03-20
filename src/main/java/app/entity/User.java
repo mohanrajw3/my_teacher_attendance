@@ -1,29 +1,47 @@
-package application.model;
+package app.entity;
 
-import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
-public class UserModel implements Serializable {
+@Entity // This tells Hibernate to make a table out of this class
+public class User  {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer user_id;
 
+    @NotNull
     private String fname;
 
     private String lname;
 
+    @NotNull
     private String userType;
 
+    @NotNull
+    @Column(unique = true)
     private String email;
 
+    @NotNull
+    @Column(unique = true)
     private Long phone;
 
+    @NotNull
     private String password;
 
 
     private Integer school_id;
 
+    @NotNull
+    @JsonFormat(pattern="dd-MM-yyyy")
     private Date created_date;
 
+    @NotNull
+    @JsonFormat(pattern="dd-MM-yyyy")
     private Date update_date;
+
 
     public Integer getUser_id() {
         return user_id;
@@ -105,3 +123,4 @@ public class UserModel implements Serializable {
         this.update_date = update_date;
     }
 }
+

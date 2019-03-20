@@ -1,44 +1,31 @@
-package application.entity;
+package app.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Date;
 
-@Entity // This tells Hibernate to make a table out of this class
-public class User  {
+public class UserModel implements Serializable {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer user_id;
 
-    @NotNull
     private String fname;
 
     private String lname;
 
-    @NotNull
     private String userType;
 
-    @NotNull
     private String email;
 
-    @NotNull
     private Long phone;
 
-    @NotNull
     private String password;
-
 
     private Integer school_id;
 
-    @NotNull
     private Date created_date;
 
-    @NotNull
     private Date update_date;
-
 
     public Integer getUser_id() {
         return user_id;
@@ -119,5 +106,6 @@ public class User  {
     public void setUpdate_date(Date update_date) {
         this.update_date = update_date;
     }
-}
 
+
+}

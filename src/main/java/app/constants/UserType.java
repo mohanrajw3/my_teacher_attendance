@@ -1,4 +1,4 @@
-package application.constants;
+package app.constants;
 
 public enum UserType {
 

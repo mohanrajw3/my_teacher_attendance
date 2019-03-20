@@ -1,4 +1,4 @@
-package application.controller;
+package app.controller;
 
 public class LoginRest {
 
