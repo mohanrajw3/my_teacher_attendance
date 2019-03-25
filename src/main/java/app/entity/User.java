@@ -26,7 +26,7 @@ public class User  {
 
     @NotNull
     @Column(unique = true)
-    private Long phone;
+    private String phone;
 
     @NotNull
     private String password;
@@ -83,11 +83,11 @@ public class User  {
         this.email = email;
     }
 
-    public Long getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(Long phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 

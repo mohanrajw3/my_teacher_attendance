@@ -1,19 +1,21 @@
 package app.controller;
 
+import app.constants.ResponseMessage;
 import app.entity.User;
 import app.facade.UserFacade;
 import app.logger.AdminLog;
+import app.model.ResponseObject;
 import app.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("user")
 public class UserRest {
 
 
-    final
+    private final
     UserFacade userFacade;
 
     @Autowired
@@ -29,15 +31,19 @@ public class UserRest {
 
 
     @PostMapping
-    public UserModel addUsersToAccount(@RequestBody User requestBody) {
+    public ResponseObject addUsersToAccount(@RequestBody User requestBody) {
 
-        UserModel userModel = null;
+        ResponseObject responseObject = new ResponseObject();
         try {
             userFacade.addUser(requestBody);
+            responseObject.setCode(HttpStatus.OK);
+            responseObject.setMessage(ResponseMessage.USER_ADD_SUCCESS);
         } catch (Exception e) {
             AdminLog.error(e.getMessage());
+            return handleErrorMessages(e, responseObject);
         }
-        return userModel;
+
+        return responseObject;
     }
 
     @PostMapping(path = "/mongo")
@@ -49,6 +55,18 @@ public class UserRest {
             AdminLog.error(e.getMessage());
         }
         return userModel;
+    }
+
+    public ResponseObject handleErrorMessages(Exception e, ResponseObject responseObject) {
+
+        if (e.getMessage().contains("EMAIL_UNIQUE")) {
+            responseObject.setCode(HttpStatus.IM_USED);
+            responseObject.setMessage(ResponseMessage.USER_EMAIL_EXIST);
+        } else {
+            responseObject.setCode(HttpStatus.NO_CONTENT);
+            responseObject.setMessage(e.getMessage());
+        }
+        return responseObject;
     }
 
 

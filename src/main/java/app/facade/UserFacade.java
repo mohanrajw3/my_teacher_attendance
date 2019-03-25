@@ -1,10 +1,13 @@
 package app.facade;
+
 import app.entity.User;
+import app.model.LoginModel;
 import app.model.UserModel;
 import app.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 @Component
 public class UserFacade {
@@ -18,15 +21,14 @@ public class UserFacade {
     }
 
 
-    public String welcomeFacade(){
+    public String welcomeFacade() {
         String usersList = userService.getAllUsers();
         return "Facade is called";
     }
 
-    public User addUser(User requestBody) throws Exception {
+    public void addUser(User requestBody) throws Exception {
         try {
             userService.addUser(requestBody);
-            return null;
         } catch (Exception e) {
             throw new Exception(e);
         }
@@ -37,6 +39,15 @@ public class UserFacade {
 
         userService.addUserbyMongo(requestBody);
 
+
+    }
+
+    public void authenticateUser(LoginModel login) {
+
+        if ((!StringUtils.isEmpty(login.getEmail()) || !StringUtils.isEmpty(login.getPhone()))
+                && !StringUtils.isEmpty(login.getPassword())) {
+            userService.authenticateUser(login);
+        }
 
     }
 }
