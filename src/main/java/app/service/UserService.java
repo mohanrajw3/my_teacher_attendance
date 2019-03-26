@@ -13,9 +13,9 @@ public interface UserService {
 
     void addUser(User user) throws Exception;
 
-    User getUserByEmail(String email);
+    User getUserByEmail(String email) throws Exception;
 
-    void addUserbyMongo(UserModel requestBody);
+    void addUserbyMongo(UserModel requestBody) throws Exception;
 
-    void authenticateUser(LoginModel login);
+    User authenticateUser(LoginModel login) throws Exception;
 }

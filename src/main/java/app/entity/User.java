@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity // This tells Hibernate to make a table out of this class
+@Table(name = "usermtab",indexes = {@Index(name = "UNIQUE_EMAIL",  columnList="email", unique = true)})
 public class User  {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,8 +32,9 @@ public class User  {
     @NotNull
     private String password;
 
-
-    private Integer school_id;
+    @ManyToOne
+    @JoinColumn(referencedColumnName = "shop_id")
+    private Shop shop;
 
     @NotNull
     @JsonFormat(pattern="dd-MM-yyyy")
@@ -99,14 +101,6 @@ public class User  {
         this.password = password;
     }
 
-    public Integer getSchool_id() {
-        return school_id;
-    }
-
-    public void setSchool_id(Integer school_id) {
-        this.school_id = school_id;
-    }
-
     public Date getCreated_date() {
         return created_date;
     }
@@ -121,6 +115,14 @@ public class User  {
 
     public void setUpdate_date(Date update_date) {
         this.update_date = update_date;
+    }
+
+    public Shop getShop() {
+        return shop;
+    }
+
+    public void setShop(Shop shop) {
+        this.shop = shop;
     }
 }
 

@@ -1,13 +1,18 @@
 package app.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.Date;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserModel implements Serializable {
 
     @Id
     private Integer user_id;
+
+    private String name;
 
     private String fname;
 
@@ -17,7 +22,7 @@ public class UserModel implements Serializable {
 
     private String email;
 
-    private Long phone;
+    private String phone;
 
     private String password;
 
@@ -67,11 +72,11 @@ public class UserModel implements Serializable {
         this.email = email;
     }
 
-    public Long getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(Long phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
@@ -107,5 +112,11 @@ public class UserModel implements Serializable {
         this.update_date = update_date;
     }
 
+    public String getName() {
+        return name;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 }

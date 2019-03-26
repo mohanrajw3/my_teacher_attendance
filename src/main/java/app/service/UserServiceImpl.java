@@ -22,15 +22,13 @@ public class UserServiceImpl implements UserService {
 
     private final PasswordEncoder passwordEncoder;
 
-    private final ModelConverter modelConverter;
 
 //    private final UserMongoRep mongoRep;
 
     @Autowired
-    public UserServiceImpl(UserDao userDao, PasswordEncoder passwordEncoder, ModelConverter modelConverter/*, UserMongoRep mongoRep*/) {
+    public UserServiceImpl(UserDao userDao, PasswordEncoder passwordEncoder/*, UserMongoRep mongoRep*/) {
         this.userDao = userDao;
         this.passwordEncoder = passwordEncoder;
-        this.modelConverter = modelConverter;
 //        this.mongoRep = mongoRep;
     }
 
@@ -61,16 +59,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void authenticateUser(LoginModel loginModel) {
-        User userDetails;
+    public User authenticateUser(LoginModel loginModel) throws Exception {
+        try {
+            User userDetails;
 
-        if (!StringUtils.isEmpty(loginModel.getEmail())) {
-            userDetails = userDao.findByEmail(loginModel.getEmail());
-        } else {
-            userDetails = userDao.findUserByPhone(loginModel.getPhone());
+            if (!StringUtils.isEmpty(loginModel.getEmail())) {
+                userDetails = userDao.findByEmail(loginModel.getEmail());
+            } else {
+                userDetails = userDao.findUserByPhone(loginModel.getPhone());
+            }
+
+            return userDetails;
+        } catch (Exception e) {
+            throw new Exception(e);
         }
-
-        System.out.println(userDetails);
 
     }
 }
