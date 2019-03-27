@@ -6,11 +6,15 @@ import app.model.LoginModel;
 import app.model.ShopModel;
 import app.model.UserModel;
 import app.modelconverter.ModelConverter;
+import app.service.ShopService;
 import app.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+
+import java.util.Date;
 
 @Component
 public class UserFacade {
@@ -21,10 +25,14 @@ public class UserFacade {
     private final
     ModelConverter modelConverter;
 
+    private final
+    ShopService shopService;
+
     @Autowired
-    public UserFacade(UserService userService, ModelConverter modelConverter) {
+    public UserFacade(UserService userService, ModelConverter modelConverter, ShopService shopService) {
         this.userService = userService;
         this.modelConverter = modelConverter;
+        this.shopService = shopService;
     }
 
 
@@ -59,21 +67,14 @@ public class UserFacade {
         }
     }
 
-    public ShopModel addShop(ShopModel shopModel) throws Exception {
-
+    public void addShop(ShopModel shopModel) throws Exception {
         try {
-
             Shop shop = modelConverter.convertShopModelToShop(shopModel);
-
-
-
-            return null;
-
-
+            shop.setCreated_date(new Date());
+            shop.setUpdate_date(new Date());
+            shopService.addShop(shop);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new Exception(e);
         }
-
-        return null;
     }
 }
