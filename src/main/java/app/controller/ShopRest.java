@@ -5,11 +5,12 @@ import app.logger.AdminLog;
 import app.model.ResponseObject;
 import app.model.ShopModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController("shop")
+@RestController(value = "shop")
 public class ShopRest {
 
 
@@ -21,7 +22,23 @@ public class ShopRest {
         this.userFacade = userFacade;
     }
 
-    @PostMapping
+
+
+    @PostMapping("/insert/{userId}")
+    public ResponseObject addShopToUser(@PathVariable Integer userId,@RequestBody ShopModel shopModel ) {
+        ResponseObject responseObject = new ResponseObject();
+
+        try {
+            userFacade.addShopToUser(shopModel,userId);
+        } catch (Exception e) {
+            AdminLog.error(e.getMessage());
+        }
+
+        return responseObject;
+    }
+
+
+    @PostMapping("/insert")
     public ResponseObject addShop(@RequestBody ShopModel shopModel) {
         ResponseObject responseObject = new ResponseObject();
 
@@ -33,4 +50,7 @@ public class ShopRest {
 
         return responseObject;
     }
+
+
+
 }

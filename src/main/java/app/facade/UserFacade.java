@@ -11,7 +11,6 @@ import app.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.Date;
@@ -40,9 +39,11 @@ public class UserFacade {
         return "Facade is called";
     }
 
-    public void addUser(User requestBody) throws Exception {
+    public void addUser(UserModel userModel) throws Exception {
+        User user;
         try {
-            userService.addUser(requestBody);
+            user = modelConverter.convertUserModelToUser(userModel);
+            userService.addUser(user);
         } catch (Exception e) {
             throw new Exception(e);
         }
@@ -70,11 +71,20 @@ public class UserFacade {
     public void addShop(ShopModel shopModel) throws Exception {
         try {
             Shop shop = modelConverter.convertShopModelToShop(shopModel);
-            shop.setCreated_date(new Date());
-            shop.setUpdate_date(new Date());
             shopService.addShop(shop);
         } catch (Exception e) {
             throw new Exception(e);
         }
+    }
+
+    public void addShopToUser(ShopModel shopModel, Integer userId) throws Exception {
+        try {
+            Shop shop = modelConverter.convertShopModelToShop(shopModel);
+            userService.addShopToUser(shop,userId);
+        } catch (Exception e) {
+            throw new Exception(e);
+        }
+
+
     }
 }

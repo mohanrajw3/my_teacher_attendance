@@ -11,7 +11,8 @@ import java.util.Date;
 public class User  {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer user_id;
+    @Column(name = "user_id")
+    private Integer id;
 
     @NotNull
     private String fname;
@@ -32,7 +33,7 @@ public class User  {
     @NotNull
     private String password;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(referencedColumnName = "shop_id")
     private Shop shop;
 
@@ -45,12 +46,12 @@ public class User  {
     private Date update_date;
 
 
-    public Integer getUser_id() {
-        return user_id;
+    public Integer getId() {
+        return id;
     }
 
-    public void setUser_id(Integer user_id) {
-        this.user_id = user_id;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getFname() {

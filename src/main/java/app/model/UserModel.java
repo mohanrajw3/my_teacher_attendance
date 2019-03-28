@@ -12,8 +12,6 @@ public class UserModel implements Serializable {
     @Id
     private Integer user_id;
 
-    private String name;
-
     private String fname;
 
     private String lname;
@@ -31,6 +29,8 @@ public class UserModel implements Serializable {
     private Date created_date;
 
     private Date update_date;
+
+    private ShopModel shopModel;
 
     public Integer getUser_id() {
         return user_id;
@@ -112,11 +112,12 @@ public class UserModel implements Serializable {
         this.update_date = update_date;
     }
 
-    public String getName() {
-        return name;
+
+    public ShopModel getShopModel() {
+        return shopModel;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setShopModel(ShopModel shopModel) {
+        this.shopModel = shopModel;
     }
 }

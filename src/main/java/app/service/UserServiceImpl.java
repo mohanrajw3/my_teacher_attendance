@@ -1,10 +1,12 @@
 package app.service;
 
 import app.datamapper.UserDao;
+import app.entity.Shop;
 import app.entity.User;
 import app.model.LoginModel;
 import app.model.UserModel;
 import app.modelconverter.ModelConverter;
+import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -38,14 +40,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional
-    public void addUser(User user) throws DataIntegrityViolationException {
+    public void addUser(User user) throws HibernateException {
         try {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             user.setCreated_date(new Date());
             user.setUpdate_date(new Date());
             userDao.save(user);
-        } catch (DataIntegrityViolationException e) {
-            throw new DataIntegrityViolationException(e.getMessage());
+        } catch (HibernateException e) {
+            throw new HibernateException(e.getMessage());
         }
     }
 
@@ -74,6 +76,18 @@ public class UserServiceImpl implements UserService {
             throw new Exception(e);
         }
 
+    }
+
+    @Override
+    @Transactional
+    public void addShopToUser(Shop shop, Integer userId) throws Exception{
+        try {
+            User user = userDao.findUserById(userId);
+            user.setShop(shop);
+            userDao.saveAndFlush(user);
+        } catch (Exception e) {
+            throw new Exception(e);
+        }
     }
 }
 

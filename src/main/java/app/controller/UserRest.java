@@ -31,11 +31,11 @@ public class UserRest {
 
 
     @PostMapping
-    public ResponseObject addUsersToAccount(@RequestBody User requestBody) {
+    public ResponseObject addUsersToAccount(@RequestBody UserModel userModel) {
 
         ResponseObject responseObject = new ResponseObject();
         try {
-            userFacade.addUser(requestBody);
+            userFacade.addUser(userModel);
             responseObject.setCode(HttpStatus.OK);
             responseObject.setMessage(ResponseMessage.USER_ADD_SUCCESS);
         } catch (Exception e) {
